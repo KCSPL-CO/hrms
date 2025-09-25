@@ -330,8 +330,8 @@ def get_employee_list():
     try:
         employees = frappe.get_all(
             "Employee",
-            filters={"status": "Active"},   # only active employees
-            fields=["name", "employee_name", "employee_number", "department", "designation"],
+            filters={"status": "Active"},   
+            fields=["*"],
             order_by="employee_name asc"
         )
 
@@ -346,7 +346,88 @@ def get_employee_list():
         return {"error": str(e)}
 
 
+# Create Employee
+@frappe.whitelist(allow_guest=False)
+def create_employee():
+    if frappe.request.method != "POST":
+        frappe.local.response["http_status_code"] = 405
+        return {"error": "Only POST method allowed"}
 
+    if not authenticate_user():
+        frappe.local.response["http_status_code"] = 401
+        return {"error": "Unauthorized"}
+
+    try:
+        data = frappe.request.get_json()
+
+        doc = frappe.new_doc("Employee")
+
+        # get all child table fieldnames in Employee DocType
+        child_tables = {
+            d.fieldname: d.options
+            for d in frappe.get_meta("Employee").fields
+            if d.fieldtype == "Table"
+        }
+
+        for key, value in data.items():
+            if key in child_tables:
+                # add child table rows
+                for row in value:
+                    doc.append(key, row)
+            else:
+                # normal field
+                doc.set(key, value)
+
+        doc.insert(ignore_permissions=True)
+        frappe.db.commit()
+
+        return {
+            "message": "Employee created successfully",
+            "employee_id": doc.name
+        }
+
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "Create Employee API")
+        frappe.local.response["http_status_code"] = 500
+        return {"error": str(e)}
+
+
+# Employee Details 
+@frappe.whitelist(allow_guest=False)
+def get_employee_detail():
+    if frappe.request.method != "POST":
+        frappe.local.response["http_status_code"] = 405
+        return {"error": "Only POST method allowed"}
+
+    if not authenticate_user():
+        frappe.local.response["http_status_code"] = 401
+        return {"error": "Unauthorized"}
+
+    try:
+        data = frappe.request.get_json()
+        employee_id = data.get("employee_id")
+
+        if not employee_id:
+            frappe.local.response["http_status_code"] = 400
+            return {"error": "employee_id is required"}
+
+        doc = frappe.get_doc("Employee", employee_id)
+
+        # Convert to dict
+        employee_data = doc.as_dict()
+
+        # Include child tables explicitly
+        employee_data["employee_dependants"] = doc.get("employee_dependants", [])
+        employee_data["employee_education"] = doc.get("employee_education", [])
+
+        return {
+            "employee": employee_data
+        }
+
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "Get Employee Detail API")
+        frappe.local.response["http_status_code"] = 500
+        return {"error": str(e)}
 
 
 
