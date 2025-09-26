@@ -81,8 +81,6 @@ def get_list_api(doctype):
         return {"error": str(e)}
 
 
-# ------------------ Individual APIs ------------------
-
 @frappe.whitelist(allow_guest=True)
 def listUsers():
     return get_list_api("User")

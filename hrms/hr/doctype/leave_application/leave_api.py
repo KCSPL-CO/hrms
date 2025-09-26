@@ -418,7 +418,7 @@ def get_employee_detail():
 
         # Include child tables explicitly
         employee_data["employee_dependants"] = doc.get("employee_dependants", [])
-        employee_data["employee_education"] = doc.get("employee_education", [])
+        employee_data["education"] = doc.get("education", [])
 
         return {
             "employee": employee_data
