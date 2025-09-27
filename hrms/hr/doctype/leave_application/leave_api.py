@@ -352,45 +352,49 @@ def create_employee():
     if frappe.request.method != "POST":
         frappe.local.response["http_status_code"] = 405
         return {"error": "Only POST method allowed"}
-
+ 
     if not authenticate_user():
         frappe.local.response["http_status_code"] = 401
         return {"error": "Unauthorized"}
-
+ 
     try:
         data = frappe.request.get_json()
-
+ 
         doc = frappe.new_doc("Employee")
-
+ 
         # get all child table fieldnames in Employee DocType
         child_tables = {
             d.fieldname: d.options
             for d in frappe.get_meta("Employee").fields
             if d.fieldtype == "Table"
         }
-
+ 
         for key, value in data.items():
             if key in child_tables:
                 # add child table rows
                 for row in value:
+                    # Always fetch gender from Relationship
+                    if "relationship" in row:
+                        gender = frappe.db.get_value("Relationship", row["relationship"], "gender")
+                        if gender:
+                            row["gender"] = gender   # override whatever is sent
                     doc.append(key, row)
             else:
                 # normal field
                 doc.set(key, value)
-
+ 
         doc.insert(ignore_permissions=True)
         frappe.db.commit()
-
+ 
         return {
             "message": "Employee created successfully",
             "employee_id": doc.name
         }
-
+ 
     except Exception as e:
         frappe.log_error(frappe.get_traceback(), "Create Employee API")
         frappe.local.response["http_status_code"] = 500
         return {"error": str(e)}
-
 
 # Employee Details 
 @frappe.whitelist(allow_guest=False)
