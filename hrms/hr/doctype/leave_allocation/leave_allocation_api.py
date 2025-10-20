@@ -299,3 +299,58 @@ def submit_leave_allocation():
         frappe.log_error(frappe.get_traceback(), "Leave Allocation Submit API Error")
         frappe.local.response["http_status_code"] = 500
         return {"error": str(e)}
+    
+# ------------------ Generic List API ------------------
+def get_list_api(doctype):
+    """Generic list API with pagination and auth"""
+    if frappe.request.method != "GET":
+        frappe.local.response["http_status_code"] = 405
+        return {"error": "Only GET method allowed"}
+
+    if not authenticate_user():
+        frappe.local.response["http_status_code"] = 401
+        return {"error": "Unauthorized"}
+
+    try:
+        # Pagination
+        limit_start = int(frappe.form_dict.get("limit_start", 0))
+        raw_limit = frappe.form_dict.get("limit_page_length", 10)
+
+        total = frappe.db.count(doctype)
+        if str(raw_limit).lower() in ("0", "all"):
+            limit_page_length = total
+        else:
+            try:
+                limit_page_length = int(raw_limit)
+            except ValueError:
+                limit_page_length = 10
+
+        MAX_LIMIT = 1000
+        if limit_page_length > MAX_LIMIT:
+            limit_page_length = MAX_LIMIT
+
+        data = frappe.get_all(
+            doctype,
+            fields=["*"],
+            order_by="creation desc",
+            limit_start=limit_start,
+            limit_page_length=limit_page_length,
+        )
+
+        return {
+            "total": total,
+            "limit_start": limit_start,
+            "applied_limit": limit_page_length,
+            "returned_count": len(data),
+            "data": data,
+        }
+
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), f"List API for {doctype}")
+        frappe.local.response["http_status_code"] = 500
+        return {"error": str(e)}
+
+
+@frappe.whitelist(allow_guest=True)
+def listLeaveType():
+    return listLeaveType("Leave Type")
