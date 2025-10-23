@@ -1,0 +1,120 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-10-22 14:56:16.307040",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "effective_date",
+  "section_break_maim",
+  "purpose",
+  "column_break_bspp",
+  "eligibility",
+  "section_break_roxq",
+  "policy_details",
+  "section_break_zzsn",
+  "revision_authority",
+  "column_break_ygax",
+  "explanation_authority"
+ ],
+ "fields": [
+  {
+   "fieldname": "effective_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Effective Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_maim",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "purpose",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Purpose",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_bspp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "eligibility",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Eligibility",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_roxq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "policy_details",
+   "fieldtype": "Long Text",
+   "in_list_view": 1,
+   "label": "Policy Details",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_zzsn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "revision_authority",
+   "fieldtype": "Link",
+   "label": "Revision Authority",
+   "options": "Department",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ygax",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "explanation_authority",
+   "fieldtype": "Link",
+   "label": "Explanation Authority",
+   "options": "Department",
+   "reqd": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "CP-.YY.-",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-10-23 16:34:22.704927",
+ "modified_by": "Administrator",
+ "module": "HR",
+ "name": "Company Policy",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
