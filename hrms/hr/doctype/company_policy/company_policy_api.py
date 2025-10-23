@@ -87,13 +87,7 @@ def list_policies():
         result = paginate_results(
             "Company Policy",
             fields=[
-                "name",
-                "effective_date",
-                "purpose",
-                "eligibility",
-                "policy_details",
-                "revision_authority",
-                "explanation_authority"
+                "*"
             ],
             filters=filters
         )
@@ -122,7 +116,7 @@ def create_policy():
         data = frappe.local.request.get_data(as_text=True)
         data = json.loads(data)
 
-        mandatory_fields = ["effective_date", "purpose", "eligibility", "policy_details"]
+        mandatory_fields = ["effective_date", "purpose", "eligibility", "policy_details","title","disable"]
         for field in mandatory_fields:
             if not data.get(field):
                 frappe.local.response["http_status_code"] = 400
@@ -135,6 +129,8 @@ def create_policy():
         doc.policy_details = data.get("policy_details")
         doc.revision_authority = data.get("revision_authority")
         doc.explanation_authority = data.get("explanation_authority")
+        doc.disable = data.get("disable")
+        doc.title = data.get("title")
 
         doc.insert(ignore_permissions=True)
         frappe.db.commit()
@@ -212,7 +208,9 @@ def update_policy():
             "eligibility",
             "policy_details",
             "revision_authority",
-            "explanation_authority"
+            "explanation_authority",
+            "title",
+            "disable"
         ]
         for key in allowed_fields:
             if key in data:
@@ -277,3 +275,59 @@ def submit_policy():
         frappe.log_error(frappe.get_traceback(), "Company Policy Submit API Error")
         frappe.local.response["http_status_code"] = 500
         return {"error": str(e)}
+
+
+def get_list_api(doctype):
+    """Generic list API with pagination and auth"""
+    if frappe.request.method != "GET":
+        frappe.local.response["http_status_code"] = 405
+        return {"error": "Only GET method allowed"}
+ 
+    if not authenticate_user():
+        frappe.local.response["http_status_code"] = 401
+        return {"error": "Unauthorized"}
+ 
+    try:
+        # Pagination
+        limit_start = int(frappe.form_dict.get("limit_start", 0))
+        raw_limit = frappe.form_dict.get("limit_page_length", 10)
+ 
+        total = frappe.db.count(doctype)
+        if str(raw_limit).lower() in ("0", "all"):
+            limit_page_length = total
+        else:
+            try:
+                limit_page_length = int(raw_limit)
+            except ValueError:
+                limit_page_length = 10
+ 
+        MAX_LIMIT = 1000
+        if limit_page_length > MAX_LIMIT:
+            limit_page_length = MAX_LIMIT
+ 
+        data = frappe.get_all(
+            doctype,
+            # fields=["name","creation","modified","modified_by","patient_care_type","description"],
+            fields=["*"],
+            order_by="creation desc",
+            limit_start=limit_start,
+            limit_page_length=limit_page_length,
+        )
+ 
+        return {
+            "total": total,
+            "limit_start": limit_start,
+            "applied_limit": limit_page_length,
+            "returned_count": len(data),
+            "data": data,
+        }
+ 
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), f"List API for {doctype}")
+        frappe.local.response["http_status_code"] = 500
+        return {"error": str(e)}
+    
+# List
+@frappe.whitelist(allow_guest=True)
+def list_all_departments():
+    return get_list_api("Department")

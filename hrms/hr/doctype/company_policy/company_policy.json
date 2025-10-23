@@ -8,6 +8,8 @@
  "field_order": [
   "naming_series",
   "effective_date",
+  "title",
+  "disable",
   "section_break_maim",
   "purpose",
   "column_break_bspp",
@@ -88,12 +90,23 @@
    "label": "Series",
    "options": "CP-.YY.-",
    "read_only": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Ttitle"
+  },
+  {
+   "default": "0",
+   "fieldname": "disable",
+   "fieldtype": "Check",
+   "label": "Disable"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-23 16:34:22.704927",
+ "modified": "2025-10-23 17:58:59.540012",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Company Policy",
