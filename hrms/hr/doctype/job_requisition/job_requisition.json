@@ -202,7 +202,7 @@
    "link_fieldname": "job_requisition"
   }
  ],
- "modified": "2026-01-13 15:39:32.890279",
+ "modified": "2026-01-13 16:10:36.087711",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Job Requisition",
@@ -230,6 +230,30 @@
    "read": 1,
    "report": 1,
    "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Projects User",
    "share": 1,
    "write": 1
   }
