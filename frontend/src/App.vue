@@ -1,9 +1,9 @@
 <template>
 	<ion-app>
-		<!-- 🚫 Block app until installed -->
+		<!-- BLOCK APP UNTIL INSTALLED -->
 		<InstallPrompt v-if="!isInstalled" />
 
-		<!-- ✅ Show app only after install -->
+		<!-- SHOW APP ONLY AFTER INSTALL -->
 		<template v-else>
 			<ion-router-outlet id="main-content" />
 			<Toasts />
