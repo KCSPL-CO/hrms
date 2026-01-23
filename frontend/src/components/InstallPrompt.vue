@@ -1,103 +1,65 @@
 <template>
-	<!-- Install PWA dialog -->
-	<Dialog v-model="showDialog">
-		<template #body-title>
-			<h2 class="text-lg font-bold">{{ __("Install Frappe HR") }} </h2>
-		</template>
-		<template #body-content>
-			<p>{{ __("Get the app on your device for easy access & a better experience!") }} </p>
-		</template>
-		<template #actions>
-			<Button variant="solid" @click="() => install()" class="py-5 w-full">
-				<template #prefix><FeatherIcon name="download" class="w-4" /></template>
-				{{ __("Install") }}
-			</Button>
-		</template>
-	</Dialog>
+	<div class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white text-center px-6">
+		<h1 class="text-2xl font-bold mb-3">
+			{{ __("Install Frappe HR") }}
+		</h1>
 
-	<!-- iOS installation info message -->
-	<Popover :show="iosInstallMessage" placement="bottom">
-		<template #body>
-			<div
-				class="mt-[calc(100vh-15rem)] flex flex-col gap-3 mx-2 rounded py-5 bg-blue-100 drop-shadow-xl"
-			>
-				<div
-					class="flex flex-row text-center items-center justify-between mb-1 px-3"
-				>
-					<span class="text-base text-gray-900 font-bold">
-						{{ __("Install Frappe HR") }}
-					</span>
-					<span class="inline-flex items-baseline">
-						<FeatherIcon
-							name="x"
-							class="ml-auto h-4 w-4 text-gray-700"
-							@click="iosInstallMessage = false"
-						/>
-					</span>
-				</div>
-				<div class="text-xs text-gray-800 px-3">
-					<span class="flex flex-col gap-2">
-						<span>
-							{{ __("Get the app on your iPhone for easy access & a better experience") }}
-						</span>
-						<span class="inline-flex items-start whitespace-nowrap">
-							<span>Tap&nbsp;</span>
-							<FeatherIcon name="share" class="h-4 w-4 text-blue-600" />
-							<span>&nbsp;and then "Add to Home Screen"</span>
-						</span>
-					</span>
-				</div>
-			</div>
-		</template>
-	</Popover>
+		<p class="text-gray-600 mb-6">
+			{{ __("Install the app to continue using Frappe HR") }}
+		</p>
+
+		<!-- Android / Desktop -->
+		<Button
+			v-if="canInstall"
+			variant="solid"
+			class="w-full py-5"
+			@click="install"
+		>
+			<template #prefix>
+				<FeatherIcon name="download" class="w-4" />
+			</template>
+			{{ __("Install App") }}
+		</Button>
+
+		<!-- iOS -->
+		<div v-if="isIos && !isStandalone" class="text-sm text-gray-700 mt-4">
+			<p class="mb-2">
+				{{ __("To install on iPhone:") }}
+			</p>
+			<p class="flex items-center justify-center gap-1">
+				Tap <FeatherIcon name="share" class="w-4 h-4 text-blue-600" />
+				<span>{{ __('then "Add to Home Screen"') }}</span>
+			</p>
+		</div>
+	</div>
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
+import { Button, FeatherIcon } from "frappe-ui"
 
-import { Dialog, Popover, FeatherIcon } from "frappe-ui"
-
-// Initialize deferredPrompt for use later to show browser install prompt.
 const deferredPrompt = ref(null)
-const showDialog = ref(false)
-const iosInstallMessage = ref(false)
+const canInstall = ref(false)
 
-const isIos = () => {
-	// Detects if device is on iOS
-	const userAgent = window.navigator.userAgent.toLowerCase()
-	return /iphone|ipad|ipod/.test(userAgent)
-}
+const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
+const isStandalone =
+	window.matchMedia("(display-mode: standalone)").matches ||
+	window.navigator.standalone === true
 
-// Detects if device is in standalone mode
-const isInStandaloneMode = () =>
-	"standalone" in window.navigator && window.navigator.standalone
+onMounted(() => {
+	window.addEventListener("beforeinstallprompt", (e) => {
+		e.preventDefault()
+		deferredPrompt.value = e
+		canInstall.value = true
+	})
 
-// Checks if should display install popup notification:
-if (isIos() && !isInStandaloneMode()) {
-	iosInstallMessage.value = true
-}
-
-window.addEventListener("beforeinstallprompt", (e) => {
-	// Prevent the mini-infobar from appearing on mobile
-	e.preventDefault()
-	// Stash the event so it can be triggered later.
-	deferredPrompt.value = e
-	if (isIos() && !isInStandaloneMode()) {
-		iosInstallMessage.value = true
-	} else {
-		showDialog.value = true
-	}
-	// Optionally, send analytics event that PWA install promo was shown.
-	console.log(`'beforeinstallprompt' event was fired.`)
-})
-
-window.addEventListener("appinstalled", () => {
-	showDialog.value = false
-	deferredPrompt.value = null
+	window.addEventListener("appinstalled", () => {
+		location.reload() // 🔥 reload to unlock app
+	})
 })
 
 async function install() {
-	deferredPrompt.value.prompt()
-	showDialog.value = false
+	if (!deferredPrompt.value) return
+	await deferredPrompt.value.prompt()
 }
 </script>
