@@ -1,0 +1,155 @@
+[
+ {
+  "completed_by": "Administrator",
+  "completed_by_role": "Lab Technician",
+  "docstatus": 0,
+  "doctype": "Workflow Action",
+  "modified": "2025-09-02 11:54:45.858997",
+  "name": "26auggr7vk",
+  "permitted_roles": [
+   {
+    "parent": "26auggr7vk",
+    "parentfield": "permitted_roles",
+    "parenttype": "Workflow Action",
+    "role": "Lab Technician"
+   },
+   {
+    "parent": "26auggr7vk",
+    "parentfield": "permitted_roles",
+    "parenttype": "Workflow Action",
+    "role": "All"
+   }
+  ],
+  "reference_doctype": "Lab Test",
+  "reference_name": "HLC-LAB-2025-00001",
+  "status": "Completed",
+  "user": null,
+  "workflow_state": "Draft"
+ },
+ {
+  "completed_by": "Administrator",
+  "completed_by_role": "Lab Verifier",
+  "docstatus": 0,
+  "doctype": "Workflow Action",
+  "modified": "2025-09-02 11:55:15.579354",
+  "name": "2fjbka6o2m",
+  "permitted_roles": [
+   {
+    "parent": "2fjbka6o2m",
+    "parentfield": "permitted_roles",
+    "parenttype": "Workflow Action",
+    "role": "Lab Verifier"
+   }
+  ],
+  "reference_doctype": "Lab Test",
+  "reference_name": "HLC-LAB-2025-00001",
+  "status": "Completed",
+  "user": null,
+  "workflow_state": "Completed"
+ },
+ {
+  "completed_by": "Administrator",
+  "completed_by_role": "LabTest Approver",
+  "docstatus": 0,
+  "doctype": "Workflow Action",
+  "modified": "2025-09-02 11:55:21.732168",
+  "name": "2hhfsivvlq",
+  "permitted_roles": [
+   {
+    "parent": "2hhfsivvlq",
+    "parentfield": "permitted_roles",
+    "parenttype": "Workflow Action",
+    "role": "LabTest Approver"
+   }
+  ],
+  "reference_doctype": "Lab Test",
+  "reference_name": "HLC-LAB-2025-00001",
+  "status": "Completed",
+  "user": null,
+  "workflow_state": "Verified"
+ },
+ {
+  "completed_by": "Administrator",
+  "completed_by_role": "All",
+  "docstatus": 0,
+  "doctype": "Workflow Action",
+  "modified": "2025-09-02 11:55:27.995550",
+  "name": "2jfvlp6le7",
+  "permitted_roles": [
+   {
+    "parent": "2jfvlp6le7",
+    "parentfield": "permitted_roles",
+    "parenttype": "Workflow Action",
+    "role": "All"
+   }
+  ],
+  "reference_doctype": "Lab Test",
+  "reference_name": "HLC-LAB-2025-00001",
+  "status": "Completed",
+  "user": null,
+  "workflow_state": "Approved"
+ },
+ {
+  "completed_by": "Administrator",
+  "completed_by_role": "All",
+  "docstatus": 0,
+  "doctype": "Workflow Action",
+  "modified": "2025-10-09 10:29:22.000795",
+  "name": "2t4monfb2a",
+  "permitted_roles": [
+   {
+    "parent": "2t4monfb2a",
+    "parentfield": "permitted_roles",
+    "parenttype": "Workflow Action",
+    "role": "All"
+   }
+  ],
+  "reference_doctype": "Consent Details",
+  "reference_name": "Anaesthesia Consent Form for Abhay",
+  "status": "Completed",
+  "user": null,
+  "workflow_state": "Draft"
+ },
+ {
+  "completed_by": "rj@gmail.com",
+  "completed_by_role": "All",
+  "docstatus": 0,
+  "doctype": "Workflow Action",
+  "modified": "2025-10-09 10:37:43.772983",
+  "name": "7pt4se7jui",
+  "permitted_roles": [
+   {
+    "parent": "7pt4se7jui",
+    "parentfield": "permitted_roles",
+    "parenttype": "Workflow Action",
+    "role": "All"
+   }
+  ],
+  "reference_doctype": "Consent Details",
+  "reference_name": "Anaesthesia Consent Form for Rakesh Gowda",
+  "status": "Completed",
+  "user": null,
+  "workflow_state": "Draft"
+ },
+ {
+  "completed_by": "Administrator",
+  "completed_by_role": "Healthcare Administrator",
+  "docstatus": 0,
+  "doctype": "Workflow Action",
+  "modified": "2025-10-09 10:38:24.790953",
+  "name": "86nj3v7skr",
+  "permitted_roles": [
+   {
+    "parent": "86nj3v7skr",
+    "parentfield": "permitted_roles",
+    "parenttype": "Workflow Action",
+    "role": "Healthcare Administrator"
+   }
+  ],
+  "reference_doctype": "Consent Details",
+  "reference_name": "Anaesthesia Consent Form for Rakesh Gowda",
+  "status": "Completed",
+  "user": null,
+  "workflow_state": "Pending"
+ }
+]

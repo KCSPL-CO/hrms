@@ -27,6 +27,22 @@ app_include_js = [
 ]
 app_include_css = "hrms.bundle.css"
 
+fixtures = [
+    {
+        "doctype": "Workflow",
+        "filters": [
+            ["name", "in", ["Leave Approver","Lab Test Workflow"]]
+        ]
+    },
+    {
+        "doctype": "Workflow State"
+    },
+    {
+        "doctype": "Workflow Action"
+    },
+]
+
+
 # website
 
 # include js, css files in header of web template
