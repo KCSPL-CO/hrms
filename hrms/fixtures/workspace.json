@@ -1,0 +1,234 @@
+[
+ {
+  "charts": [
+   {
+    "chart_name": "Leave Balance",
+    "label": "Leave Balance Summary",
+    "parent": "EmployeeDashboard",
+    "parentfield": "charts",
+    "parenttype": "Workspace"
+   }
+  ],
+  "content": "[{\"id\":\"NhMR6PkPkT\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">EmployeeDashboard</span>\",\"col\":12}},{\"id\":\"ISw35lW-4B\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Employee Details\",\"col\":12}},{\"id\":\"WRcCm_qAmp\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Leave Application\",\"col\":4}},{\"id\":\"O3oE7xKmEi\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Regularization Request\",\"col\":4}},{\"id\":\"Q-WjuySh0R\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Company Policy\",\"col\":4}},{\"id\":\"mPt6fVOhqX\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Refer a Candidate\",\"col\":4}},{\"id\":\"sHbwVl1G6z\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Internal Job Posting\",\"col\":4}},{\"id\":\"sIayBYN4Dw\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"My Payslip\",\"col\":4}},{\"id\":\"cxctQuM5iI\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"My Expenses\",\"col\":4}},{\"id\":\"N6P1wEYDbK\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\" CheckIn\",\"col\":4}},{\"id\":\"cTA9ThlJIz\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"My Leave Application\",\"col\":4}},{\"id\":\"RSXAZttIVZ\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"My Regularization\",\"col\":4}},{\"id\":\"suU4k_M4RA\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Leave Balance Summary\",\"col\":12}},{\"id\":\"snBGNteWwt\",\"type\":\"card\",\"data\":{\"card_name\":\"Shift & Attendence\",\"col\":4}},{\"id\":\"b-huXsQ-jX\",\"type\":\"card\",\"data\":{\"card_name\":\"Leave Balance\",\"col\":4}}]",
+  "custom_blocks": [
+   {
+    "custom_block_name": "Employee Details",
+    "label": "Employee Details",
+    "parent": "EmployeeDashboard",
+    "parentfield": "custom_blocks",
+    "parenttype": "Workspace"
+   }
+  ],
+  "docstatus": 0,
+  "doctype": "Workspace",
+  "for_user": "",
+  "hide_custom": 0,
+  "icon": "users",
+  "indicator_color": "grey",
+  "is_hidden": 0,
+  "label": "EmployeeDashboard",
+  "links": [
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Leave",
+    "link_count": 0,
+    "link_to": "Leave Application",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "EmployeeDashboard",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Leave Balance",
+    "link_count": 1,
+    "link_to": null,
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "EmployeeDashboard",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Card Break"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 1,
+    "label": "Leave Balance",
+    "link_count": 0,
+    "link_to": "Employee Leave Balance Summary",
+    "link_type": "Report",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "EmployeeDashboard",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Shift & Attendence",
+    "link_count": 2,
+    "link_to": null,
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "EmployeeDashboard",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Card Break"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 1,
+    "label": "Monthly Attendence",
+    "link_count": 0,
+    "link_to": "Monthly Attendance Sheet",
+    "link_type": "Report",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "EmployeeDashboard",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 1,
+    "label": "Daily Attendence",
+    "link_count": 0,
+    "link_to": "Shift Attendance",
+    "link_type": "Report",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "EmployeeDashboard",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   }
+  ],
+  "modified": "2026-02-14 16:24:07.572547",
+  "module": "HR",
+  "name": "EmployeeDashboard",
+  "number_cards": [],
+  "parent_page": "",
+  "public": 1,
+  "quick_lists": [
+   {
+    "document_type": "Company Policy",
+    "label": "Company Policy",
+    "parent": "EmployeeDashboard",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   },
+   {
+    "document_type": "Leave Application",
+    "label": "My Leave Application",
+    "parent": "EmployeeDashboard",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[[\"Leave Application\",\"status\",\"=\",\"Open\",false]]"
+   },
+   {
+    "document_type": "Employee Checkin",
+    "label": " CheckIn",
+    "parent": "EmployeeDashboard",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[[\"Employee Checkin\",\"creation\",\"Timespan\",\"last 7 days\",false]]"
+   },
+   {
+    "document_type": "Attendance Request",
+    "label": "My Regularization",
+    "parent": "EmployeeDashboard",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[[\"Attendance Request\",\"docstatus\",\"=\",\"0\",false]]"
+   },
+   {
+    "document_type": "Leave Application",
+    "label": "Leave Application",
+    "parent": "EmployeeDashboard",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   },
+   {
+    "document_type": "Employee Referral",
+    "label": "Refer a Candidate",
+    "parent": "EmployeeDashboard",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   },
+   {
+    "document_type": "Attendance Request",
+    "label": "Regularization Request",
+    "parent": "EmployeeDashboard",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   },
+   {
+    "document_type": "Job Opening",
+    "label": "Internal Job Posting",
+    "parent": "EmployeeDashboard",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   },
+   {
+    "document_type": "Salary Slip",
+    "label": "My Payslip",
+    "parent": "EmployeeDashboard",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   },
+   {
+    "document_type": "Expense Claim",
+    "label": "My Expenses",
+    "parent": "EmployeeDashboard",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   }
+  ],
+  "restrict_to_domain": null,
+  "roles": [],
+  "sequence_id": 39.0,
+  "shortcuts": [],
+  "title": "EmployeeDashboard"
+ }
+]

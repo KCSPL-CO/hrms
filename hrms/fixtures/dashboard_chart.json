@@ -1,0 +1,70 @@
+[
+ {
+  "aggregate_function_based_on": null,
+  "based_on": null,
+  "chart_name": "Leave Balance",
+  "chart_type": "Report",
+  "color": null,
+  "currency": "INR",
+  "custom_options": null,
+  "docstatus": 0,
+  "doctype": "Dashboard Chart",
+  "document_type": null,
+  "dynamic_filters_json": "{}",
+  "filters_json": "{\"date\":\"2026-02-14\",\"company\":\"Karthika Consulting & Solutions Pvt Ltd\",\"employee_status\":\"Active\"}",
+  "from_date": null,
+  "group_by_based_on": null,
+  "group_by_type": "Count",
+  "heatmap_year": null,
+  "is_public": 1,
+  "is_standard": 0,
+  "last_synced_on": null,
+  "modified": "2026-02-14 11:25:59.523420",
+  "module": null,
+  "name": "Leave Balance",
+  "number_of_groups": 0,
+  "parent_document_type": null,
+  "report_name": "Employee Leave Balance Summary",
+  "roles": [],
+  "show_values_over_chart": 1,
+  "source": null,
+  "time_interval": "Yearly",
+  "timeseries": 0,
+  "timespan": "Last Year",
+  "to_date": null,
+  "type": "Bar",
+  "use_report_chart": 0,
+  "value_based_on": null,
+  "x_field": "employee",
+  "y_axis": [
+   {
+    "color": "#ECAD4B",
+    "parent": "Leave Balance",
+    "parentfield": "y_axis",
+    "parenttype": "Dashboard Chart",
+    "y_field": "casual_leave"
+   },
+   {
+    "color": "#4F9DD9",
+    "parent": "Leave Balance",
+    "parentfield": "y_axis",
+    "parenttype": "Dashboard Chart",
+    "y_field": "sick_leave"
+   },
+   {
+    "color": "#B4CD29",
+    "parent": "Leave Balance",
+    "parentfield": "y_axis",
+    "parenttype": "Dashboard Chart",
+    "y_field": "compensatory_off"
+   },
+   {
+    "color": "#29CD42",
+    "parent": "Leave Balance",
+    "parentfield": "y_axis",
+    "parenttype": "Dashboard Chart",
+    "y_field": "earned_leaves"
+   }
+  ]
+ }
+]
