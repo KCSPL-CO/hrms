@@ -15,7 +15,7 @@ def create_regularization(**kwargs):
     )
 
     kwargs["from_date"] = kwargs["to_date"] = getdate(kwargs.pop("date"))
-    regularization = frappe.new_doc("Attendance Regularization")
+    regularization = frappe.new_doc("Attendance Request")
     regularization.update(kwargs)
     regularization.update(employee_details)
     regularization.save()
