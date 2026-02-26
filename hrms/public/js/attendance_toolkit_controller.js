@@ -793,7 +793,7 @@ select.form-control:focus {
     // FETCH (FULL ORIGINAL LOGIC)
     // ==============================
     // ======================================================
-    // 🔥 FULL CLEAN WORKING fetchAttendanceData()
+    // FULL CLEAN WORKING fetchAttendanceData()
     // ======================================================
 
     async fetchAttendanceData() {
@@ -824,7 +824,7 @@ select.form-control:focus {
                 if (!data.message) return;
 
                 // ======================================================
-                // 🔵 GET DOM ELEMENTS
+                // GET DOM ELEMENTS
                 // ======================================================
 
                 const heatmap = document.getElementById("heatmap");
@@ -846,7 +846,7 @@ select.form-control:focus {
     `;
                 });
                 // ===============================
-                // 📅 ALIGN FIRST DAY OF MONTH
+                // ALIGN FIRST DAY OF MONTH
                 // ===============================
                 const firstDate = new Date(year, month - 1, 1);
                 const startDay = firstDate.getDay();
@@ -857,7 +857,7 @@ select.form-control:focus {
     `;
                 }
                 // ======================================================
-                // 🟢 SECTION 1 → SUMMARY + STREAK + HEATMAP
+                // SECTION 1 → SUMMARY + STREAK + HEATMAP
                 // ======================================================
 
                 let present = 0;
@@ -900,7 +900,7 @@ select.form-control:focus {
                 });
 
                 // ======================================================
-                // 🟢 SECTION 2 → UPDATE SUMMARY UI
+                // SECTION 2 → UPDATE SUMMARY UI
                 // ======================================================
 
                 document.getElementById("summary-present").innerText = present;
@@ -909,7 +909,7 @@ select.form-control:focus {
                 document.getElementById("summary-streak").innerText = maxStreak + " 🔥";
 
                 // ======================================================
-                // 🟢 SECTION 3 → ANIMATED PROGRESS BAR
+                // SECTION 3 → ANIMATED PROGRESS BAR
                 // ======================================================
 
                 let percent = fullData.length > 0
@@ -924,7 +924,7 @@ select.form-control:focus {
                 }
 
                 // ======================================================
-                // 🟢 SECTION 4 → MANAGER ANALYTICS (SAFE)
+                // SECTION 4 → MANAGER ANALYTICS (SAFE)
                 // ======================================================
 
                 if (this.isManager) {
@@ -947,13 +947,13 @@ select.form-control:focus {
                 }
 
                 // ======================================================
-                // 🟡 SECTION 5 → BUILD CARDS (FILTER APPLIED HERE)
+                // SECTION 5 → BUILD CARDS (FILTER APPLIED HERE)
                 // ======================================================
                 fullData.forEach(item => {
 
                     const attendance = item.attendance || "";
 
-                    // 🔵 FILTER (Still applied)
+                    //  FILTER (Still applied)
                     if (this.activeFilter && this.activeFilter !== "all") {
                         if (attendance !== this.activeFilter) return;
                     }
@@ -986,7 +986,7 @@ select.form-control:focus {
                     }
 
                     // ==================================================
-                    // 🔥 ORIGINAL CO / REGULARIZATION / LEAVE LOGIC
+                    // ORIGINAL CO / REGULARIZATION / LEAVE LOGIC
                     // ==================================================
 
                     let leaveRequestPresent = "";
@@ -1006,9 +1006,13 @@ select.form-control:focus {
                     }
 
                     let cORequestPresent = "";
-                    if (item.co_status === "Approved") {
+                    console.log("DATE:", item.date, "CO DOCSTATUS:", item.co_docstatus);
+                    if (item.co_docstatus === 1) {
+                        // Submitted → Approved
                         cORequestPresent = "CO Approved";
-                    } else if (item.co_req_present) {
+                    }
+                    else if (item.co_docstatus === 0) {
+                        // Draft → Requested
                         cORequestPresent = "CO Requested";
                     }
 
@@ -1019,12 +1023,12 @@ select.form-control:focus {
                         attendance &&
                         attendance != "Present" &&
                         attendance != "Work From Home" &&
-                        
+
                         (item.half_day_status != "Present" || !requestPresent);
 
-let showCORequestButton =
-    item.holiday &&
-    !cORequestPresent;
+                    let showCORequestButton =
+                        item.holiday &&
+                        !cORequestPresent;
 
                     let showLeaveButton =
                         !item.holiday &&
@@ -1055,7 +1059,7 @@ let showCORequestButton =
                     }
 
                     // ==================================================
-                    // 🔥 BUILD CALENDAR CELL (UPDATED STRUCTURE)
+                    //  BUILD CALENDAR CELL (UPDATED STRUCTURE)
                     // ==================================================
                     // ===== STATUS TEXT CLASS =====
                     let statusTextClass = "text-absent";
@@ -1080,19 +1084,19 @@ let showCORequestButton =
                     // ============================
                     // NEW CLEAN CARD DESIGN
                     // ============================
-// ============================
-// FORMAT SINGLE TIME LINE
-// ============================
+                    // ============================
+                    // FORMAT SINGLE TIME LINE
+                    // ============================
 
-let timeLine = "-";
+                    let timeLine = "-";
 
-if (item.in_time && item.out_time) {
-    timeLine = `${item.in_time} - ${item.out_time}`;
-}
+                    if (item.in_time && item.out_time) {
+                        timeLine = `${item.in_time} - ${item.out_time}`;
+                    }
 
-let hoursText = item.working_hours
-    ? `(${item.working_hours} hrs)`
-    : "";
+                    let hoursText = item.working_hours
+                        ? `(${item.working_hours} hrs)`
+                        : "";
                     container.innerHTML += `
     <div class="calendar-day">
 
@@ -1120,13 +1124,21 @@ let hoursText = item.working_hours
       <!-- Bottom : Actions -->
 <div style="margin-top:10px; display:flex; gap:6px; flex-wrap:wrap;">
 
-  ${item.holiday ? `
+${item.holiday ? `
     <span 
         class="action-badge action-co ${cORequestPresent ? 'disabled-action' : 'CORequest'}"
         data-date="${cORequestPresent ? '' : dateString}"
-        title="${cORequestPresent ? 'Already Applied' : 'Request Compensatory Off'}"
-        style="${cORequestPresent ? 'opacity:.5; cursor:not-allowed;' : ''}">
-        CO
+        title="${cORequestPresent === 'CO Approved'
+                                ? 'CO Approved'
+                                : cORequestPresent === 'CO Requested'
+                                    ? 'CO Requested (Draft)'
+                                    : 'Request Compensatory Off'
+                            }"
+        style="${cORequestPresent ? 'opacity:.6; cursor:not-allowed;' : ''}">
+        ${cORequestPresent
+                                ? cORequestPresent
+                                : 'CO'
+                            }
     </span>
 ` : ''}
 
@@ -1135,11 +1147,10 @@ ${regRelevant ? `
         class="action-badge action-regularize 
         ${regRequestPresent ? 'disabled-action' : (regAllowed ? 'regularization' : 'regularizationReject')}"
         data-date="${regRequestPresent ? '' : dateString}"
-        title="${
-            regRequestPresent 
-            ? 'Already Applied' 
-            : (!regAllowed ? 'Outside Allowed Window' : 'Apply Regularization')
-        }"
+        title="${regRequestPresent
+                                ? 'Already Applied'
+                                : (!regAllowed ? 'Outside Allowed Window' : 'Apply Regularization')
+                            }"
         style="${regRequestPresent ? 'opacity:.5; cursor:not-allowed;' : ''}">
         Regularize
     </span>
@@ -1164,144 +1175,144 @@ ${regRelevant ? `
     // ==============================
     // KEEP ALL ORIGINAL FUNCTIONS
     // ==============================
-openRegularizationModal(date) {
+    openRegularizationModal(date) {
 
-    let employee = this.employee;
+        let employee = this.employee;
 
-    let d = new frappe.ui.Dialog({
-        title: 'Regularization Request',
-        fields: [
-            {
-                label: 'Date',
-                fieldname: 'date',
-                fieldtype: 'Date',
-                read_only: 1,
-            },
-            {
-                label: 'Reason',
-                fieldname: 'reason',
-                fieldtype: 'Select',
-                options: ['Work From Home', 'On Duty'],
-                reqd: 1
-            },
-            {
-                label: 'Explanation',
-                fieldname: 'explanation',
-                fieldtype: 'Small Text',
-                reqd: 1
-            }
-        ],
-        primary_action_label: 'Submit Regularization',
-        primary_action: (values) => {
-
-            frappe.call({
-                method: "frappe.client.insert",
-                args: {
-                    doc: {
-                        doctype: "Attendance Request",
-                        employee: employee,
-                        from_date: values.date,
-                        to_date: values.date,
-                        reason: values.reason,
-                        explanation: values.explanation
-                    }
+        let d = new frappe.ui.Dialog({
+            title: 'Regularization Request',
+            fields: [
+                {
+                    label: 'Date',
+                    fieldname: 'date',
+                    fieldtype: 'Date',
+                    read_only: 1,
                 },
-                freeze: true,
-                freeze_message: "Submitting Regularization...",
-           callback: (r) => {
-    if (!r.exc) {
+                {
+                    label: 'Reason',
+                    fieldname: 'reason',
+                    fieldtype: 'Select',
+                    options: ['Work From Home', 'On Duty'],
+                    reqd: 1
+                },
+                {
+                    label: 'Explanation',
+                    fieldname: 'explanation',
+                    fieldtype: 'Small Text',
+                    reqd: 1
+                }
+            ],
+            primary_action_label: 'Submit Regularization',
+            primary_action: (values) => {
 
-        frappe.call({
-            method: "frappe.client.submit",
-            args: {
-                doc: r.message
-            },
-            callback: () => {
-                frappe.show_alert({
-                    message: "Regularization submitted successfully",
-                    indicator: "green"
+                frappe.call({
+                    method: "frappe.client.insert",
+                    args: {
+                        doc: {
+                            doctype: "Attendance Request",
+                            employee: employee,
+                            from_date: values.date,
+                            to_date: values.date,
+                            reason: values.reason,
+                            explanation: values.explanation
+                        }
+                    },
+                    freeze: true,
+                    freeze_message: "Submitting Regularization...",
+                    callback: (r) => {
+                        if (!r.exc) {
+
+                            frappe.call({
+                                method: "frappe.client.submit",
+                                args: {
+                                    doc: r.message
+                                },
+                                callback: () => {
+                                    frappe.show_alert({
+                                        message: "Regularization submitted successfully",
+                                        indicator: "green"
+                                    });
+
+                                    // d.hide();
+                                    this.fetchAttendanceData();
+                                }
+                            });
+
+                        }
+                    }
                 });
 
-                // d.hide();
-                this.fetchAttendanceData();
             }
         });
 
+        d.show();
+        d.set_value("date", date);
     }
-}
-            });
 
-        }
-    });
+    openCORequestModal(date) {
 
-    d.show();
-    d.set_value("date", date);
-}
+        let employee = this.employee;
 
-openCORequestModal(date) {
+        let d = new frappe.ui.Dialog({
+            title: 'Compensatory Off Request',
+            fields: [
+                {
+                    label: 'Date',
+                    fieldname: 'date',
+                    fieldtype: 'Date',
+                    read_only: 1,
+                },
+                {
+                    label: 'Reason',
+                    fieldname: 'reason',
+                    fieldtype: 'Select',
+                    options: ['Work From Home', 'On Duty'],
+                    reqd: 1
+                },
+                {
+                    label: 'Explanation',
+                    fieldname: 'explanation',
+                    fieldtype: 'Small Text',
+                    reqd: 1
+                }
+            ],
+            primary_action_label: 'Submit CO Request',
+            primary_action(values) {
 
-    let employee = this.employee;
+                frappe.call({
+                    method: "frappe.client.insert",
+                    args: {
+                        doc: {
+                            doctype: "Attendance Request",
+                            employee: employee,
+                            from_date: values.date,
+                            to_date: values.date,
+                            reason: values.reason,
+                            explanation: values.explanation,
+                            include_holidays: 1,
+                            is_compensatory_leave: 1
+                        }
+                    },
+                    freeze: true,
+                    freeze_message: "Creating CO Request...",
+                    callback: (r) => {
+                        if (!r.exc) {
+                            frappe.show_alert({
+                                message: "CO request created (Draft).",
+                                indicator: "green"
+                            });
 
-    let d = new frappe.ui.Dialog({
-        title: 'Compensatory Off Request',
-        fields: [
-            {
-                label: 'Date',
-                fieldname: 'date',
-                fieldtype: 'Date',
-                read_only: 1,
-            },
-            {
-                label: 'Reason',
-                fieldname: 'reason',
-                fieldtype: 'Select',
-                options: ['Work From Home', 'On Duty'],
-                reqd: 1
-            },
-            {
-                label: 'Explanation',
-                fieldname: 'explanation',
-                fieldtype: 'Small Text',
-                reqd: 1
+                            d.hide();
+                            this.fetchAttendanceData();
+                        }
+                    }
+                });
             }
-        ],
-        primary_action_label: 'Submit CO Request',
-primary_action(values) {
+        });
 
-frappe.call({
-    method: "frappe.client.insert",
-    args: {
-        doc: {
-            doctype: "Attendance Request",
-            employee: employee,
-            from_date: values.date,
-            to_date: values.date,
-            reason: values.reason,
-            explanation: values.explanation,
-            include_holidays: 1,
-            is_compensatory_leave: 1
-        }
-    },
-    freeze: true,
-    freeze_message: "Creating CO Request...",
-    callback: (r) => {
-        if (!r.exc) {
-            frappe.show_alert({
-                message: "CO request created (Draft).",
-                indicator: "green"
-            });
-
-            d.hide();
-            this.fetchAttendanceData();
-        }
+        d.show();
+        d.set_value("date", date);
     }
-});
-}
-    });
-
-    d.show();
-    d.set_value("date", date);
-}
 
     newLeaveDoc(date) {
         frappe.new_doc("Leave Application", {

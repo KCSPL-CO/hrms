@@ -94,19 +94,18 @@ def get_checkin_log(month, year, employee=None):
         "from_date": ["<=", get_last_day(f"{year}-{month}-01")],
         "to_date": [">=", f"{year}-{month}-01"],
       },
-      fields=["from_date", "to_date", "workflow_state", "half_day"],
+      fields=["from_date", "to_date", "workflow_state", "half_day","docstatus"],
     )
 
     compensatory_off_requests = frappe.db.get_list(
-      "Attendance Request",
-      filters={
+    "Attendance Request",
+    filters={
         "employee": employee,
         "from_date": ["<=", get_last_day(f"{year}-{month}-01")],
         "to_date": [">=", f"{year}-{month}-01"],
-        "ignore_holiday": 1,
         "is_compensatory_leave": 1,
-      },
-      fields=["from_date", "to_date", "docstatus"],
+    },
+    fields=["from_date", "to_date", "docstatus"],
     )
 
     work_from_home = wfh_data(month, year, employee)
@@ -131,7 +130,7 @@ def get_checkin_log(month, year, employee=None):
       date_str = compensatory_off_request_date["date"]
       attendance_map.setdefault(date_str, {})
       attendance_map[date_str]["co_req_present"] = True
-      attendance_map[date_str]["co_status"] = compensatory_off_request_date["status"]
+      attendance_map[date_str]["co_docstatus"] = compensatory_off_request_date.get("docstatus")
     for holiday_date in holiday_dates:
       attendance_map.setdefault(holiday_date.holiday_date.strftime("%d-%m-%Y"), {})
       attendance_map[holiday_date.holiday_date.strftime("%d-%m-%Y")][
@@ -166,10 +165,13 @@ def get_checkin_log(month, year, employee=None):
         row["reg_status"] = attendance_status
       if wfh_status := attendance_map.get(attendance_map_key, {}).get("wfh_status", ""):
         row["wfh_status"] = wfh_status
-      if attendance_reg := attendance_map.get(attendance_map_key, {}).get("co_status", ""):
-        row["co_status"] = attendance_reg
-      if attendance_map.get(attendance_map_key, {}).get("co_req_present", ""):
+      if attendance_map.get(attendance_map_key, {}).get("co_req_present"):
         row["co_req_present"] = True
+
+      co_docstatus = attendance_map.get(attendance_map_key, {}).get("co_docstatus")
+
+      if co_docstatus is not None:
+        row["co_docstatus"] = co_docstatus
       if holiday := attendance_map.get(attendance_map_key, {}).get("holiday", ""):
         row["holiday"] = holiday
       if working_hours := attendance_map.get(attendance_map_key, {}).get(
@@ -334,29 +336,37 @@ def wfh_data(month, year, employee):
 
 
 def atomize_dates(item_list):
-  result_list = []
+    result_list = []
 
-  for item in item_list:
-    from_date = item.get("from_date")
-    to_date = item.get("to_date")
-    single_date = item.get("date")
+    for item in item_list:
+        from_date = item.get("from_date")
+        to_date = item.get("to_date")
+        single_date = item.get("date")
 
-    if from_date and to_date:
-      current_date = from_date
-      while current_date <= to_date:
-        result_list.append(
-          {
-            "date": current_date.strftime("%d-%m-%Y"),
-            # "status": item.get("status") or item.get("workflow_state")
-            "status": "Approved"
-            if item.get("docstatus") == 1
-            else (item.get("workflow_state") or item.get("status")),
-            "half_day": item.get("half_day"),
-          }
-        )
-        current_date = add_to_date(current_date, days=1)
+        docstatus = item.get("docstatus")
+        workflow_state = item.get("workflow_state")
+        status_field = item.get("status")
 
-    elif single_date:
-      result_list.append({"date": single_date.strftime("%d-%m-%Y"), "status": "Approved"})
+        if from_date and to_date:
+            current_date = from_date
+            while current_date <= to_date:
+                result_list.append(
+                    {
+                        "date": current_date.strftime("%d-%m-%Y"),
+                        "status": workflow_state or status_field,
+                        "half_day": item.get("half_day"),
+                        "docstatus": docstatus,
+                    }
+                )
+                current_date = add_to_date(current_date, days=1)
 
-  return result_list
+        elif single_date:
+            result_list.append(
+                {
+                    "date": single_date.strftime("%d-%m-%Y"),
+                    "status": workflow_state or status_field,
+                    "docstatus": docstatus,
+                }
+            )
+
+    return result_list
